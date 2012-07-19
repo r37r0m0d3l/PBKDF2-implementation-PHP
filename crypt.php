@@ -57,7 +57,7 @@ class crypt
 					break;
 				case 2:
 					if (!isset($numbers[0]))
-						$numbers = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+						$numbers = range(0, 9);
 					shuffle($numbers);
 					$random[] = $numbers[0];
 					unset($numbers[0]);
