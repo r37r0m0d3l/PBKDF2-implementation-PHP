@@ -1,4 +1,4 @@
-crypt_flavor
+PBKDF2 implementation PHP
 ============
 
 Tiny cryptography kit
