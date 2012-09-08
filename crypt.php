@@ -13,9 +13,11 @@ class crypt
 	 * @param bool $letters - use the letters
 	 * @param bool $numbers - use numbers
 	 * @param bool $symbols - use common symbols
+	 * @param bool $cyr_c   - use cyrillic capitals
+	 * @param bool $cyr_l   - use cyrillic letters
 	 * @return string
 	 */
-	public static function rand($length = 32, $caps = true, $letters = true, $numbers = true, $symbols = true)
+	public static function rand($length = 32, $caps = true, $letters = true, $numbers = true, $symbols = true, $cyr_c = false, $cyr_l = false)
 	{
 		$random = array();
 		$use = array();
@@ -29,6 +31,10 @@ class crypt
 			$use[] = 2;
 		if ($symbols)
 			$use[] = 3;
+		if ($cyr_c)
+			$use[] = 4;
+		if ($cyr_l)
+			$use[] = 5;
 		$use_count = count($use) - 1;
 		$index = 0;
 		for ($i = 1; $i <= $length; $i++)
@@ -71,6 +77,26 @@ class crypt
 					shuffle($symbols);
 					$random[] = $symbols[0];
 					unset($symbols[0]);
+					break;
+				case 4:
+					if (!isset($cyr_c[0]))
+						$cyr_c = array('А', 'Б', 'В', 'Г', 'Ґ', 'Д', 'Е', 'Ё', 'Є', 'Ж', 'З', 'И', 'Й',
+							'І', 'Ї', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф',
+							'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я'
+						);
+					shuffle($cyr_c);
+					$random[] = $cyr_c[0];
+					unset($cyr_c[0]);
+					break;
+				case 5:
+					if (!isset($cyr_l[0]))
+						$cyr_l = array('а', 'б', 'в', 'г', 'ґ', 'д', 'е', 'ё', 'є', 'ж', 'з', 'и', 'й',
+							'і', 'ї', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф',
+							'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я'
+						);
+					shuffle($cyr_l);
+					$random[] = $cyr_l[0];
+					unset($cyr_l[0]);
 					break;
 			}
 			if ($index < $use_count)
