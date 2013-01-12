@@ -179,4 +179,34 @@ class crypt
 		mcrypt_module_close($td);
 		return $msg;
 	}
+
+	/**
+	 * generate blowfish hash (PHP >= 5.3.7)
+	 * @static
+	 * @param string $password - password
+	 * @param bool   $cropped  - crop blowfish hash
+	 * @return string
+	 */
+	public static function blowfish($password, $cropped = false)
+	{
+		if (!CRYPT_BLOWFISH)
+			return false;
+		$password = crypt($password, '$2y$11$'.substr(md5(uniqid(rand(), true)), 0, 22).'$');
+		return $cropped ? substr($password, 7) : $password;
+	}
+
+	/**
+	 * check blowfish hash (PHP >= 5.3.7)
+	 * @static
+	 * @param string $password - password
+	 * @param string $hash     - hash to compare
+	 * @param bool   $cropped  - is hash was cropped
+	 * @return string
+	 */
+	public static function blowfish_verify($password, $hash, $cropped = false)
+	{
+		if ($cropped)
+			$hash = '$2y$11$'.$hash;
+		return crypt($password, $hash) == $hash;
+	}
 }
